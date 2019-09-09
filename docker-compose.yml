@@ -22,7 +22,8 @@ services:
       - '443:443'
     container_name: ${PROJECT_NAME}_wordpress
     volumes:
-      - ./wordpress:/bitnami
+      - ./:/bitnami
+      - ./wordpress:/home/bitnami/apps/wordpress/htdocs/ # aws lightsail wordpress
     working_dir: /bitnami
     depends_on:
       - mariadb
@@ -50,10 +51,9 @@ services:
     image: welaika/wordmove
     container_name: ${PROJECT_NAME}_wordmove
     volumes:
-      - ./config:/config
-      - ./wordpress:/bitnami
-      - ~/.ssh:/root/.ssh:ro
-    working_dir: /config
+      - ./wordpress:/bitnami:ro
+      - ./config:/home/wordmove/config:ro
+      - ~/.ssh:/home/wordmove/.ssh:ro
 
 volumes:
   mariadb_data:
