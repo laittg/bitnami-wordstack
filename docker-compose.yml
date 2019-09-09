@@ -1,0 +1,62 @@
+version: '2'
+
+services:
+  # database
+  mariadb:
+    image: 'bitnami/mariadb:10.3'
+    ports:
+      - '3306:3306'
+    container_name: ${PROJECT_NAME}_mariadb
+    volumes:
+      - ./.mariadb:/bitnami
+    environment:
+      - MARIADB_USER=bn_wordpress
+      - MARIADB_PASSWORD=bn_wordpress
+      - MARIADB_DATABASE=bitnami_wordpress
+      - MARIADB_ROOT_PASSWORD=bn_root
+  # wordpress
+  wordpress:
+    image: 'bitnami/wordpress:5'
+    ports:
+      - '80:80'
+      - '443:443'
+    container_name: ${PROJECT_NAME}_wordpress
+    volumes:
+      - ./wordpress:/bitnami
+    working_dir: /bitnami
+    depends_on:
+      - mariadb
+    environment:
+      - MARIADB_HOST=mariadb
+      - MARIADB_PORT_NUMBER=3306
+      - WORDPRESS_DATABASE_USER=bn_wordpress
+      - WORDPRESS_DATABASE_PASSWORD=bn_wordpress
+      - WORDPRESS_DATABASE_NAME=bitnami_wordpress
+  # phpmyadmin
+  phpmyadmin:
+    depends_on:
+      - mariadb
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - 8080:80
+    container_name: ${PROJECT_NAME}_phpmyadmin
+    environment:
+      PMA_HOST: mariadb
+  # wordmove
+  wordmove:
+    tty: true
+    depends_on:
+      - wordpress
+    image: welaika/wordmove
+    container_name: ${PROJECT_NAME}_wordmove
+    volumes:
+      - ./config:/config
+      - ./wordpress:/bitnami
+      - ~/.ssh:/root/.ssh:ro
+    working_dir: /config
+
+volumes:
+  mariadb_data:
+    driver: local
+  wordpress_data:
+    driver: local
