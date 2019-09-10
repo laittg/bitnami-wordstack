@@ -8,7 +8,7 @@ services:
       - '3306:3306'
     container_name: ${PROJECT_NAME}_mariadb
     volumes:
-      - ./.mariadb:/bitnami
+      - ./bitnami/mariadb:/bitnami
     environment:
       - MARIADB_USER=bn_wordpress
       - MARIADB_PASSWORD=bn_wordpress
@@ -16,14 +16,14 @@ services:
       - MARIADB_ROOT_PASSWORD=bn_root
   # wordpress
   wordpress:
-    image: 'bitnami/wordpress:5'
+    image: 'bitnami/wordpress'
     ports:
       - '80:80'
       - '443:443'
     container_name: ${PROJECT_NAME}_wordpress
     volumes:
-      - ./:/bitnami
-      - ./wordpress:/home/bitnami/apps/wordpress/htdocs/ # aws lightsail wordpress
+      - ./bitnami:/bitnami
+      - ./bitnami/wordpress:/home/bitnami/apps/wordpress/htdocs/ # aws lightsail wordpress
     working_dir: /bitnami
     depends_on:
       - mariadb
@@ -48,12 +48,16 @@ services:
     tty: true
     depends_on:
       - wordpress
-    image: welaika/wordmove
+    image: laittg/wordmove
     container_name: ${PROJECT_NAME}_wordmove
     volumes:
-      - ./wordpress:/bitnami:ro
-      - ./config:/home/wordmove/config:ro
-      - ~/.ssh:/home/wordmove/.ssh:ro
+      - ./bitnami:/bitnami
+      - ./.env:/home/wordmove/.env:ro
+      - ./movefile.yml:/home/wordmove/movefile.yml:ro
+      - ./wp-cli.yml:/home/wordmove/wp-cli.yml:ro
+      - ~/${SSH_DIR}:/home/wordmove/${SSH_DIR}:ro
+      - ~/${SSH_DIR}id_rsa:/home/wordmove/.ssh/id_rsa:ro
+      - ~/.ssh/config:/home/wordmove/.ssh/config:ro
 
 volumes:
   mariadb_data:

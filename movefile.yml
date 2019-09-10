@@ -2,8 +2,8 @@ global:
   sql_adapter: wpcli
 
 local:
-  vhost: http://ecoparkmarathon.local
-  wordpress_path: /bitnami # use an absolute path here
+  vhost: "<%= ENV['HOST_LOCAL'] %>"
+  wordpress_path: /bitnami/wordpress # use an absolute path here
 
   database:
     name: bitnami_wordpress
@@ -12,17 +12,17 @@ local:
     host: mariadb
 
 production:
-  vhost: http://epm.ecobus.vn
+  vhost: "<%= ENV['HOST_PROD'] %>"
   wordpress_path: /home/bitnami/apps/wordpress/htdocs # use an absolute path here
 
   database:
     name: bitnami_wordpress
-    user: bn_wordmove
-    password: "a8406704c1"
-    host: "54.169.241.34"
+    user: bn_wordpress
+    password: "<%= ENV['DB_PASSWORD_PROD'] %>"
+    host: "<%= ENV['DB_HOST_PROD'] %>"
     # port: 3308 # Use just in case you have exotic server config
-    mysqldump_options: '--max_allowed_packet=1G' # Only available if using SSH
-    mysql_options: '--protocol=TCP' # mysql command is used to import db
+    # mysqldump_options: '--max_allowed_packet=1G' # Only available if using SSH
+    # mysql_options: '--protocol=TCP' # mysql command is used to import db
 
   exclude:
     - '.git/'
