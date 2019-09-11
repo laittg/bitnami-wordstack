@@ -58,6 +58,7 @@ services:
       - ~/${SSH_DIR}:/home/wordmove/${SSH_DIR}:ro
       - ~/${SSH_DIR}id_rsa:/home/wordmove/.ssh/id_rsa:ro
       - ~/.ssh/config:/home/wordmove/.ssh/config:ro
+      - ~/.ssh/known_hosts:/home/wordmove/.ssh/known_hosts
 
 volumes:
   mariadb_data:
