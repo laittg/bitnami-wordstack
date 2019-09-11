@@ -2,7 +2,7 @@ global:
   sql_adapter: wpcli
 
 local:
-  vhost: "<%= ENV['HOST_LOCAL'] %>"
+  vhost: "<%= ENV['WP_HOST_LOCAL'] %>"
   wordpress_path: /bitnami/wordpress # use an absolute path here
 
   database:
@@ -12,7 +12,7 @@ local:
     host: mariadb
 
 production:
-  vhost: "<%= ENV['HOST_PROD'] %>"
+  vhost: "<%= ENV['WP_HOST_PROD'] %>"
   wordpress_path: /home/bitnami/apps/wordpress/htdocs # use an absolute path here
 
   database:
@@ -50,7 +50,7 @@ production:
   #   languages: wp-content/languages
 
   ssh:
-    host: "epm:wp"
+    host: "<%= ENV['SSH_HOST_PROD'] %>" # host name defined in ~/.ssh/config
     # user: bitnami
     # password: password # password is optional, will use public keys if available.
     # port: 22 # Port is optional
