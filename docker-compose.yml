@@ -64,6 +64,7 @@ services:
       - ~/.ssh/config:/home/wordmove/.ssh/config:ro
       - ~/.ssh/known_hosts:/home/wordmove/.ssh/known_hosts
       - ./wordpress:/home/wordmove/wordpress
+      - ./bitnami:/home/wordmove/bitnami
     networks:
       - bitnami_network
 
