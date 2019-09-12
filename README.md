@@ -14,4 +14,9 @@ PROJECT_NAME=bn
 #  must be starting exactly with .ssh
 #  do not include trailing slash
 SSH_DIR=.ssh
+
+# ports
+PORT_MARIADB=3306
+PORT_WORDPRESS=80
+PORT_PMA=8080
 ```

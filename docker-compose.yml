@@ -5,7 +5,7 @@ services:
   mariadb:
     image: 'bitnami/mariadb:10.3'
     ports:
-      - '3306:3306'
+      - '${PORT_MARIADB}:3306'
     container_name: ${PROJECT_NAME}_mariadb
     volumes:
       - ./mariadb:/bitnami/mariadb
@@ -20,8 +20,7 @@ services:
   wordpress:
     image: 'bitnami/wordpress'
     ports:
-      - '80:80'
-      - '443:443'
+      - '${PORT_WORDPRESS}:80'
     container_name: ${PROJECT_NAME}_wordpress
     volumes:
       - ./wordpress:/bitnami/wordpress
@@ -43,7 +42,7 @@ services:
       - mariadb
     image: phpmyadmin/phpmyadmin
     ports:
-      - 8080:80
+      - ${PORT_PMA}:80
     container_name: ${PROJECT_NAME}_phpmyadmin
     environment:
       PMA_HOST: mariadb
