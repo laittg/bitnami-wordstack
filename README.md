@@ -9,8 +9,12 @@ SSH_HOST_PROD="ssh-config-host"
 
 # for docker-compose, do not use quote
 PROJECT_NAME=bn
+# absolute path to the project repository
+#  do not include trailing slash
+PROJECT_DIR=/Users/name/repo/my-project
 
 # location of id_rsa for production server
-#  must include trailing slash
-SSH_DIR=.ssh/
+#  must be starting exactly with .ssh
+#  do not include trailing slash
+SSH_DIR=.ssh
 ```

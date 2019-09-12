@@ -8,7 +8,7 @@ services:
       - '3306:3306'
     container_name: ${PROJECT_NAME}_mariadb
     volumes:
-      - ./bitnami/mariadb:/bitnami
+      - ${PROJECT_DIR}:/bitnami
     environment:
       - MARIADB_USER=bn_wordpress
       - MARIADB_PASSWORD=bn_wordpress
@@ -22,8 +22,8 @@ services:
       - '443:443'
     container_name: ${PROJECT_NAME}_wordpress
     volumes:
-      - ./bitnami:/bitnami
-      - ./bitnami/wordpress:/home/bitnami/apps/wordpress/htdocs/ # aws lightsail wordpress
+      - ${PROJECT_DIR}:/bitnami
+      - ${PROJECT_DIR}/wordpress:/home/bitnami/apps/wordpress/htdocs/ # aws lightsail wordpress
     working_dir: /bitnami
     depends_on:
       - mariadb
@@ -51,12 +51,12 @@ services:
     image: laittg/wordmove
     container_name: ${PROJECT_NAME}_wordmove
     volumes:
-      - ./bitnami:/bitnami
+      - ${PROJECT_DIR}:/bitnami
       - ./.env:/home/wordmove/.env:ro
       - ./movefile.yml:/home/wordmove/movefile.yml:ro
       - ./wp-cli.yml:/home/wordmove/wp-cli.yml:ro
       - ~/${SSH_DIR}:/home/wordmove/${SSH_DIR}:ro
-      - ~/${SSH_DIR}id_rsa:/home/wordmove/.ssh/id_rsa:ro
+      - ~/${SSH_DIR}/id_rsa:/home/wordmove/.ssh/id_rsa:ro
       - ~/.ssh/config:/home/wordmove/.ssh/config:ro
       - ~/.ssh/known_hosts:/home/wordmove/.ssh/known_hosts
 
