@@ -1,4 +1,4 @@
-version: '2'
+version: '3.5'
 
 services:
   # database
@@ -14,6 +14,8 @@ services:
       - MARIADB_PASSWORD=bn_wordpress
       - MARIADB_DATABASE=bitnami_wordpress
       - MARIADB_ROOT_PASSWORD=bn_root
+    networks:
+      - bitnami_network
   # wordpress
   wordpress:
     image: 'bitnami/wordpress'
@@ -33,6 +35,8 @@ services:
       - WORDPRESS_DATABASE_USER=bn_wordpress
       - WORDPRESS_DATABASE_PASSWORD=bn_wordpress
       - WORDPRESS_DATABASE_NAME=bitnami_wordpress
+    networks:
+      - bitnami_network
   # phpmyadmin
   phpmyadmin:
     depends_on:
@@ -43,6 +47,8 @@ services:
     container_name: ${PROJECT_NAME}_phpmyadmin
     environment:
       PMA_HOST: mariadb
+    networks:
+      - bitnami_network
   # wordmove
   wordmove:
     tty: true
@@ -59,6 +65,12 @@ services:
       - ~/${SSH_DIR}/id_rsa:/home/wordmove/.ssh/id_rsa:ro
       - ~/.ssh/config:/home/wordmove/.ssh/config:ro
       - ~/.ssh/known_hosts:/home/wordmove/.ssh/known_hosts
+    networks:
+      - bitnami_network
+
+networks:
+  bitnami_network:
+    name: ${PROJECT_NAME}_default
 
 volumes:
   mariadb_data:
