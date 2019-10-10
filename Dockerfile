@@ -37,7 +37,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 		php7.2-curl \
 		php7.2-mbstring \
 		php7.2-mysql \
-	&& apt-get clean \
+    php7.2-zip \
+    php7.2-xml
+RUN apt-get clean \
 	&& rm -fr /var/lib/apt/lists/*
 
 RUN /bin/bash -l -c "gem install rbnacl-libsodium"
